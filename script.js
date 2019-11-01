@@ -4,11 +4,27 @@ window.addEventListener("load", function () {
 
    let faultyDiv = document.getElementById("faultyItems");
    let fuel = document.getElementById("fuelStatus");
-   let cargo = document.getElementById("cargoStatus")
-   let pilotStatus = document.getElementById("pilotStatus")
-   let copilotStatus = document.getElementById("copilotStatus")
+   let cargo = document.getElementById("cargoStatus");
+   let pilotStatus = document.getElementById("pilotStatus");
+   let copilotStatus = document.getElementById("copilotStatus");
+
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then( function(response) {
+      response.json().then( function(json) {
+         let missionData = document.getElementById('missionTarget');
+         missionData.innerHTML = 
+         `<h2>Mission Destination</h2>
+   <ol>
+      <li>Name: ${json.name[1]}</li>
+      <li>Diameter: ${json.diameter[1]}</li>
+      <li>Star: ${json.star[1]}</li>
+      <li>Distance from Earth: ${json.distance[1]}</li>
+      <li>Number of Moons: ${json.moons[1]}</li>
+   </ol>
+   <img src="${image[1]}"></img>`;
+      });
 
    form.addEventListener("submit", function (event) {
+      event.preventDefault();
       let pilotNameInput = document.querySelector("input[name=pilotName]");
       console.log(pilotNameInput.value);
       let coPilotInput = document.querySelector("input[name=copilotName]");
@@ -57,27 +73,22 @@ window.addEventListener("load", function () {
       fuel.innerHTML = "Not enough fuel for takeoff.";
       failedStatus();
    }
-   if(fuelCheck > 10000 && cargoCheck > 10000){
+   else if(fuelCheck > 10000 && cargoCheck > 10000){
       cargo.innerHTML = "Cargo too heavy for takeoff.";
       failedStatus();
    }
-   if (fuelCheck < 10000 && cargoCheck > 10000){
+   else if(fuelCheck < 10000 && cargoCheck > 10000){
       fuel.innerHTML = "Not enough fuel for takeoff.";
       cargo.innerHTML = "Cargo too heavy for takeoff.";
       failedStatus();
    }
-   else if (fuelCheck > 10000 && cargoCheck < 10000){
-      passedStatus();
-   }
+   else (passedStatus());
 
     });
-
-
+   //  let missionData = document.getElementById('missionTarget')
+   //  missionData.innerHTML = ` <h2> HELLO </h2>`;
+            });
 });
-
-// fetch(https://handlers.education.launchcode.org/static/planets.json).then(function(response) {
-//                 console.log(response)
-//             });
 
 // /*This block of code shows how to format the HTML once you fetch some planetary JSON!
 // <h2>Mission Destination</h2>
