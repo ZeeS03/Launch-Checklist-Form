@@ -14,14 +14,16 @@ window.addEventListener("load", function () {
          missionData.innerHTML = 
          `<h2>Mission Destination</h2>
    <ol>
-      <li>Name: ${json.name[1]}</li>
-      <li>Diameter: ${json.diameter[1]}</li>
-      <li>Star: ${json.star[1]}</li>
-      <li>Distance from Earth: ${json.distance[1]}</li>
-      <li>Number of Moons: ${json.moons[1]}</li>
+      <li>Name: ${json[1].name}</li>
+      <li>Diameter: ${json[1].diameter}</li>
+      <li>Star: ${json[1].star}</li>
+      <li>Distance from Earth: ${json[1].distance}</li>
+      <li>Number of Moons: ${json[1].moons}</li>
    </ol>
-   <img src="${image[1]}"></img>`;
+   <img src="${json[1].image}"></img>`;
       });
+   });
+
 
    form.addEventListener("submit", function (event) {
       event.preventDefault();
@@ -61,12 +63,12 @@ window.addEventListener("load", function () {
      let cargoCheck = Number(cargoMassInput.value);
 
     function failedStatus() {
-       document.querySelector("h2").innerHTML = "Shuttle not ready for launch.";
-       document.querySelector("h2").style.color = "red";
+       document.getElementById("launchStatus").innerHTML = "Shuttle not ready for launch.";
+       document.getElementById("launchStatus").style.color = "red";
     }
     function passedStatus() {
-       document.querySelector("h2").innerHTML = "Shuttle is ready for launch.";
-       document.querySelector("h2").style.color = "green"
+       document.getElementById("launchStatus").innerHTML = "Shuttle is ready for launch.";
+       document.getElementById("launchStatus").style.color = "green"
     }
 
     if(fuelCheck < 10000 && cargoCheck < 10000 ){
@@ -85,10 +87,7 @@ window.addEventListener("load", function () {
    else (passedStatus());
 
     });
-   //  let missionData = document.getElementById('missionTarget')
-   //  missionData.innerHTML = ` <h2> HELLO </h2>`;
             });
-});
 
 // /*This block of code shows how to format the HTML once you fetch some planetary JSON!
 // <h2>Mission Destination</h2>
