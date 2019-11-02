@@ -33,60 +33,63 @@ window.addEventListener("load", function () {
       let fuelInput = document.querySelector("input[name=fuelLevel]");
       let cargoMassInput = document.querySelector("input[name=cargoMass]");
 
+      function allLetter(inputtxt)
+  {
+   var letters = /^[A-Za-z]+$/;
+   if(inputtxt.value.match(letters))
+     {
+      return true;
+     }
+   else
+     {
+     return false;
+     }
+  }
+  
       if (pilotNameInput.value === "" || coPilotInput.value === "" || fuelInput.value === "" || cargoMassInput.value === ""){
          alert("All fields are required!");
-         event.preventDefault()
-      };
-
-      console.log(typeof pilotNameInput.value);
-      console.log(typeof coPilotInput.value);
-      console.log(isNaN(pilotNameInput.value));
-      console.log(isNaN(coPilotInput.value)); 
-
-      if (isNaN(pilotNameInput.value) === false || (isNaN(coPilotInput.value) === false)) {
+      }
+      else if (isNaN(pilotNameInput.value) === false || (isNaN(coPilotInput.value) === false) || (isNaN(fuelInput.value) === true || (isNaN(cargoMassInput.value) === true))) {
          alert("Invalid Input.");
-         event.preventDefault()
-      };
+      }
+      else if (allLetter(pilotNameInput) === false || allLetter(coPilotInput) === false ){
+         alert("Names should be letters only.");
+      }
+      else { 
 
-      if (isNaN(fuelInput.value) === true || (isNaN(cargoMassInput.value) === true)){
-         alert("Please enter a number.");
-         event.preventDefault()
-      };
+         faultyDiv.style.visibility = "visible";
+         pilotStatus.innerHTML =`${pilotNameInput.value} Ready`;
+         copilotStatus.innerHTML = `${coPilotInput.value} Ready`;
+         let fuelCheck = Number(fuelInput.value);
+         let cargoCheck = Number(cargoMassInput.value);
 
+         function failedStatus() {
+         document.getElementById("launchStatus").innerHTML = "Shuttle not ready for launch.";
+         document.getElementById("launchStatus").style.color = "red";
+         }
+         function passedStatus() {
+         document.getElementById("launchStatus").innerHTML = "Shuttle is ready for launch.";
+         document.getElementById("launchStatus").style.color = "green"
+         }
 
-   faultyDiv.style.visibility = "visible";
-   pilotStatus.innerHTML =`${pilotNameInput.value} Ready`;
-   copilotStatus.innerHTML = `${coPilotInput.value} Ready`;
-   
+         if(fuelCheck < 10000 && cargoCheck < 10000 ){
+         fuel.innerHTML = "Not enough fuel for takeoff.";
+         failedStatus();
+         }
+         else if(fuelCheck > 10000 && cargoCheck > 10000){
+         cargo.innerHTML = "Cargo too heavy for takeoff.";
+         failedStatus();
+         }
+         else if(fuelCheck < 10000 && cargoCheck > 10000){
+         fuel.innerHTML = "Not enough fuel for takeoff.";
+         cargo.innerHTML = "Cargo too heavy for takeoff.";
+          failedStatus();
+         }
+         else (passedStatus());
+      }
 
-     let fuelCheck = Number(fuelInput.value);
-     let cargoCheck = Number(cargoMassInput.value);
+         });
 
-    function failedStatus() {
-       document.getElementById("launchStatus").innerHTML = "Shuttle not ready for launch.";
-       document.getElementById("launchStatus").style.color = "red";
-    }
-    function passedStatus() {
-       document.getElementById("launchStatus").innerHTML = "Shuttle is ready for launch.";
-       document.getElementById("launchStatus").style.color = "green"
-    }
-
-    if(fuelCheck < 10000 && cargoCheck < 10000 ){
-      fuel.innerHTML = "Not enough fuel for takeoff.";
-      failedStatus();
-   }
-   else if(fuelCheck > 10000 && cargoCheck > 10000){
-      cargo.innerHTML = "Cargo too heavy for takeoff.";
-      failedStatus();
-   }
-   else if(fuelCheck < 10000 && cargoCheck > 10000){
-      fuel.innerHTML = "Not enough fuel for takeoff.";
-      cargo.innerHTML = "Cargo too heavy for takeoff.";
-      failedStatus();
-   }
-   else (passedStatus());
-
-    });
             });
 
 // /*This block of code shows how to format the HTML once you fetch some planetary JSON!
